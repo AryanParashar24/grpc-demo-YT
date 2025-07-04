@@ -1,0 +1,31 @@
+/* It the file that we write everything in so that we can define the remote procedure calls that happen between the client and ther server and we define our procedure calls in the greet.proto file but the actual code will be in the pb.go which will be generated for us which will be greet.proto.pb.go file and the greet_proto.pb.go file */
+syntax = "proto3";
+
+option go_package = "./proto"; // This option specifies the Go package name for the generated code where the files will be generated
+
+package greet_service;  // same the go package we instyall at the start of a main.go file in all our golang projects
+
+service GreetService{
+    rpc SayHello (NoParam) returns (HelloResponse); // This is the remote procedure call that we define here, it takes a NoParam and returns a HelloResponse
+
+    rpc SayHelloServerStreaming(NameList) returns(stream HelloResponse); // This is the server streaming RPC, it takes a NameList and returns a stream of HelloResponse
+    rpc SayHelloClientStreaming(stream HelloRequest) returns (HelloResponse); // This is the client streaming RPC, it takes a stream of NameList and returns a HelloResponse
+    rpc SayHelloBidirectionalStreaming(stream HelloRequest) returns (stream HelloResponse); // This is the bidirectional streaming RPC, it takes a stream of NameList and returns a stream of HelloResponse
+}
+
+message NoParam{};
+// Now we'll define the messages been defined and referenced in the RPCs above
+
+message HelloRequest {
+    string name = 1; // This is the request that we send to the server, it is a string name
+}
+message HelloResponse {
+    string message = 1; // This is the response that we get back from the server, it is a string message
+}
+
+message NameList {
+    repeated string names = 1; // This is a list of names, it is a repeated field
+}
+message HelloResponseList {
+    repeated HelloResponse responses = 1; // This is a list of HelloResponse, it is a repeated field
+}
