@@ -20,13 +20,15 @@ func main(){	// it just means that our client shoudl be able to create the abili
 	defer conn.Close() // close the connection when the function exits and server kept running with the client after it closed
 	// thatswhy its been kept at the end of that the connection is closed after the execution is done at the end 
 
-		client := pb.NewGreetServiceClient(conn) // create a new client using the connection and the service defined in the proto file
+	client := pb.NewGreetServiceClient(conn) // create a new client using the connection and the service defined in the proto file
 
-		// name:= &pb.NamesList{
-		// 	Names: []string{"Aryan", "Parashar"}, // create a new NamesList with the names we want to greet
-		// }
+	name:= &pb.NamesList{
+		Names: []string{"Aryan", "Parashar"}, // create a new NamesList with the names we want to greet
+	}
 
-		callSayHello(client)	// we'll have to describe this function in orther to call this client
-		
+	//		callSayHello(client)	// we'll have to describe this function in orther to call this client
+	// callSayHelloServerStream(client, names)
+	//	callSayHelloClientStream(client, name) // call the SayHelloClientStreaming method from the GreetServiceClient interface with the context and the request
+	callSayHelloBiDirectionalStream(client, name)
 
 	}
